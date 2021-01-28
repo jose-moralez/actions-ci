@@ -1,0 +1,46 @@
+name: Memory profile
+
+on: [issue_comment]
+
+jobs:
+  comment:
+    if: (github.actor == 'jose-moralez') && contains(github.event.comment.body, '/memprof') && (github.event.issue.pull_request != null)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Escuchar comments
+        uses: machine-learning-apps/actions-chatops@master
+        with:
+          TRIGGER_PHRASE: "/memprof"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        id: comment
+
+      - name: Clonar master
+        if: steps.comment.outputs.BOOL_TRIGGERED == 'true'
+        uses: actions/checkout@master
+        with:
+          path: master
+
+
+      - name: Clonar branch del PR
+        uses: actions/checkout@master
+        with:
+          ref: ${{ steps.comment.outputs.SHA }}
+          path: pr
+
+      - name: Instalar python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+
+      - name: Correr profiles
+        run: |
+          pip install beautifulsoup4 requests scalene master/
+          scalene master/action_files/memory_profile.py --reduced-profile --html --outfile report_master.html
+          pip uninstall -y mimod
+          pip install pr/
+          scalene master/action_files/memory_profile.py --reduced-profile --html --outfile report_pr.html
+          python master/action_files/comenta_reportes.py report_master.html report_pr.html
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.comment.outputs.PULL_REQUEST_NUMBER }}
