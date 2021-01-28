@@ -4,17 +4,18 @@ on: [push]
 
 jobs:
   run-test:
-  steps:
-    - name: Clone repo
-      uses: actions/checkout@v2
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
 
-    - name: Set up python
-      uses: actions/setu-python@v2
-      with:
-        python-version: '3.7'
+      - name: Set up python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.7'
 
-    - name: Install library
-      run: pip install .
+      - name: Install library
+        run: pip install .
 
-    - name: Run pytest
-      run: pip install pytest && pytest
+      - name: Run pytest
+        run: pip install pytest && pytest
