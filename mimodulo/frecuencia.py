@@ -3,7 +3,7 @@ from numba import njit
 
 @njit
 def frecuencia(arr: np.ndarray, valor: int) -> int:
-    freq = 1
+    freq = 0
     for elem in arr:
         if elem == valor:
             freq += 1
