@@ -37,7 +37,7 @@ jobs:
         run: |
           pip install beautifulsoup4 requests scalene master/
           scalene master/action_files/memory_profile.py --reduced-profile --html --outfile report_master.html
-          pip uninstall -y mimod
+          pip uninstall -y mimodulo
           pip install pr/
           scalene master/action_files/memory_profile.py --reduced-profile --html --outfile report_pr.html
           python master/action_files/comenta_reportes.py report_master.html report_pr.html
