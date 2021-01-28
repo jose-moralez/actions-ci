@@ -1,6 +1,6 @@
 import numpy as np
 
-from mimod.frecuencia import frecuencia
+from mimodulo.frecuencia import frecuencia
 
 
 if __name__ == '__main__':
