@@ -18,7 +18,7 @@ with open(sys.argv[2], 'rt') as f:
 
 reporte_master = extrae_reporte(html_master)
 reporte_pr = extrae_reporte(html_pr)
-url = f'https://api.github.com/repos/jose-moralez/gha/issues/{pr_number}/comments'
+url = f'https://api.github.com/repos/jose-moralez/actions-ci/issues/{pr_number}/comments'
 headers = {
         'Accept': 'application/vnd.github.v3+json',
         'Authorization': f'token {token}'}
